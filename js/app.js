@@ -1,7 +1,12 @@
+//Each tile is 101px wide
+var tileWidth = 101;
+//Each tile is 83px high
+var tileHeight = 83;
+
 //Array of random speeds for the bugs
 var BUG_SPEEDS = [150,200,250,300,350,400,450,500,550];
-var BUG_START_Y = [145,230,315,395];
-var BUG_START_X = 100;
+//var BUG_START_Y = [151,251,351];
+var BUG_START_X = -20;
 
 
 //Produce a random number
@@ -23,18 +28,20 @@ var Enemy = function() {
     this.sprite = 'images/enemy-bug.png';
     this.x = BUG_START_X;
     this.y = this.StartPosY();
-    this.speed = 17;
+    this.speed = this.DefineSpeed();
 }
 
 /**
 * Computes the random y position of bug entities;
-* range of start position determined by BUG_START_Y
+* The bugs are constrained withing the stone block
 */
 Enemy.prototype.StartPosY = function() {
-    console.log(BUG_START_Y[randomNumber(BUG_START_Y.length)]);
-    return BUG_START_Y[randomNumber(BUG_START_Y.length)];
+    return ((tileHeight-20) + randomNumber(3) * tileHeight);
 }
 
+Enemy.prototype.DefineSpeed = function(){
+    return BUG_SPEEDS[randomNumber(BUG_SPEEDS.length)];
+}
 
 
 // Update the enemy's position, required method for game
@@ -43,7 +50,13 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.x = this.x + this.speed * dt;
+
+    if (this.x > 707) {
+    this.x = BUG_START_X;
+    this.y = this.StartPosY();
+    this.speed = this.DefineSpeed();
+    }
+    this.x = this.x + this.speed * dt; 
 
 }
 
@@ -63,8 +76,8 @@ var Player = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/char-horn-girl.png';
-    this.x = 100;
-    this.y = 400;
+    this.x = 83;
+    this.y = 83;
 }
 
 Player.prototype.update = function(dt) {
@@ -84,10 +97,9 @@ Player.prototype.render = function() {
 var enemy1 = new Enemy();
 var enemy2 = new Enemy();
 var enemy3 = new Enemy();
-var enemy4 = new Enemy();
 var player = new Player();
 
-var allEnemies = [enemy1,enemy2,enemy3,enemy4];
+var allEnemies = [enemy1,enemy2,enemy3];
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
