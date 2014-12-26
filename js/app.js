@@ -2,11 +2,16 @@
 var tileWidth = 101;
 //Each tile is 83px high
 var tileHeight = 83;
-
 //Array of random speeds for the bugs
-var BUG_SPEEDS = [150,200,250,300,350,400,450,500,550];
+var BUG_SPEEDS = [200,220,240,260,280,300,320,340,360,380,400,420,440,460,480,500];
 //var BUG_START_Y = [151,251,351];
 var BUG_START_X = -20;
+//Player's starting positions
+var PLAYER_START_X = 20;
+var PLAYER_START_Y = 350;
+//Player's moving offsets
+var PLAYER_MOVE_X = 81;
+var PLAYER_MOVE_Y = 60;
 
 
 //Produce a random number
@@ -76,21 +81,51 @@ var Player = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/char-horn-girl.png';
-    this.x = 83;
-    this.y = 83;
+    this.x = PLAYER_START_X;
+    this.y = PLAYER_START_Y;
 }
 
-Player.prototype.update = function(dt) {
+Player.prototype.update = function(dt) { 
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+    if(this.x >= ctx.width    || this.y >=ctx.height){
+        this.x = PLAYER_START_X;
+        this.y = PLAYER_START_Y;
+    }
+}
+
+Player.prototype.resetPosition = function(){
+    this.x = PLAYER_START_X;
+    this.y = PLAYER_START_Y;
 }
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
+Player.prototype.handleInput = function(key){
+    switch(key){
+        case "up":
+            if(this.y > 15 )
+                this.y = this.y - PLAYER_MOVE_Y;
+            break;
+        case "down":
+            if (this.y < tileHeight * 5 - 50)
+                this.y = this.y + PLAYER_MOVE_Y;
+            break;
+        case "left":
+            if (this.x > 20)
+                this.x = this.x - PLAYER_MOVE_X;
+            break;
+        case "right":
+            if (this.x < tileWidth * 4 - 50)
+                this.x = this.x + PLAYER_MOVE_X;
+            break;
+            
+    }
 
+}
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player

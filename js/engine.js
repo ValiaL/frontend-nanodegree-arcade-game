@@ -16,7 +16,7 @@
 
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
-     * create the canvas element, grab the 2D context for that canvas
+        * create the canvas element, grab the 2D context for that canvas
      * set the canvas elements height/width and add it to the DOM.
      */
     var doc = global.document,
@@ -80,6 +80,7 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
+        bugCollision(dt)
         // checkCollisions();
     }
 
@@ -96,6 +97,22 @@ var Engine = (function(global) {
         });
         player.update();
     }
+
+    function collide(entity1,entity2){
+        var proximity = 50;
+        if (Math.abs(entity1.x - entity2.x) < proximity && Math.abs(entity1.y - entity2.y) < proximity){
+            return true;
+        }
+    }
+
+    function bugCollision(){
+        allEnemies.forEach(function(enemy){
+             if (collide(player,enemy)){
+                 player.resetPosition();
+             }
+           });
+    }
+
 
     /* This function initially draws the "game level", it will then call
      * the renderEntities function. Remember, this function is called every
