@@ -12,6 +12,9 @@ var PLAYER_START_Y = 350;
 //Player's moving offsets
 var PLAYER_MOVE_X = 81;
 var PLAYER_MOVE_Y = 60;
+//Instantiate enemies
+var allEnemies = [];
+
 
 
 //Produce a random number
@@ -63,11 +66,21 @@ Enemy.prototype.update = function(dt) {
     }
     this.x = this.x + this.speed * dt; 
 
+    if (player.x == 20 && player.y == 50){
+        this.multiplyEnemies(20,50);
+    }
 }
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+
+Enemy.prototype.multiplyEnemies = function(x,y){
+    for (var i = 0; i < 100; i++) {
+        allEnemies.push(new Enemy);
+    };
+
 }
 
 // Now write your own player class
@@ -134,7 +147,8 @@ var enemy2 = new Enemy();
 var enemy3 = new Enemy();
 var player = new Player();
 
-var allEnemies = [enemy1,enemy2,enemy3];
+//var allEnemies = [enemy1,enemy2,enemy3];
+allEnemies = [enemy1,enemy2,enemy3];
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
