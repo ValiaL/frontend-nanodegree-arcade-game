@@ -80,7 +80,11 @@ var Engine = (function(global) {
      */
     function update(dt) {
         updateEntities(dt);
-        bugCollision(dt)
+        bugCollision(dt);
+        if (flag === true){
+        setTimeout(function(){openMessageWindow(dt)},1000);
+        flag = false;
+        }   
         // checkCollisions();
     }
 
@@ -112,6 +116,27 @@ var Engine = (function(global) {
              }
            });
     }
+
+
+
+    function openMessageWindow(){
+       window.alert("You stepped on a bug nest! Press OK to restart");
+       resetGame();
+    }
+
+
+    // a helper function
+    // used internally to draw the text in
+    // in the center of the canvas (with respect
+    // to the x coordinate)
+    // taken from http://dev.bennage.com/blog/2013/01/11/game-dev-02/
+    
+    function centerText(ctx, text, y) {
+    var measurement = ctx.measureText(text);
+    var x = (ctx.canvas.width - measurement.width) / 2;
+    ctx.fillText(text, x, y);
+    } 
+
 
 
     /* This function initially draws the "game level", it will then call

@@ -14,8 +14,7 @@ var PLAYER_MOVE_X = 81;
 var PLAYER_MOVE_Y = 60;
 //Instantiate enemies
 var allEnemies = [];
-
-
+var flag = false;
 
 //Produce a random number
 var randomNumber = function(range) {
@@ -66,8 +65,10 @@ Enemy.prototype.update = function(dt) {
     }
     this.x = this.x + this.speed * dt; 
 
+    //Multiply bugs when player steps on stone (20,50)
     if (player.x == 20 && player.y == 50){
-        this.multiplyEnemies(20,50);
+        this.multiplyEnemies();
+        flag = true;
     }
 }
 
@@ -76,11 +77,15 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 }
 
-Enemy.prototype.multiplyEnemies = function(x,y){
-    for (var i = 0; i < 100; i++) {
+Enemy.prototype.multiplyEnemies = function(){
+    for (var i = 0; i < 200; i++) {
         allEnemies.push(new Enemy);
     };
+}
 
+Enemy.prototype.resetAll = function(){
+    this.x = BUG_START_X;
+    this.y = this.StartPosY();
 }
 
 // Now write your own player class
@@ -105,6 +110,11 @@ Player.prototype.update = function(dt) {
     if(this.x >= ctx.width    || this.y >=ctx.height){
         this.x = PLAYER_START_X;
         this.y = PLAYER_START_Y;
+    }
+
+     //Reset game if player reaches the water
+    if(player.y <= 0){
+        this.resetPosition();
     }
 }
 
@@ -135,10 +145,10 @@ Player.prototype.handleInput = function(key){
             if (this.x < tileWidth * 4 - 50)
                 this.x = this.x + PLAYER_MOVE_X;
             break;
-            
     }
 
 }
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
@@ -150,6 +160,12 @@ var player = new Player();
 //var allEnemies = [enemy1,enemy2,enemy3];
 allEnemies = [enemy1,enemy2,enemy3];
 
+
+function resetGame() {
+allEnemies = [enemy1,enemy2,enemy3];
+player.resetPosition();
+}
+
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
@@ -157,7 +173,8 @@ document.addEventListener('keyup', function(e) {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
+        41: 'space'
     };
     player.handleInput(allowedKeys[e.keyCode]);
 });
