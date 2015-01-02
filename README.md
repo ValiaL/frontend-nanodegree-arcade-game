@@ -1,7 +1,7 @@
 frontend-nanodegree-arcade-game
 ===============================
 
-[Play Game](http://ValiaL.github.io/frontend-nanodegree-arcade-game/index.html)
+[Play Game](http://ValiaL.github.io/index.html)
 
 ## Your goal
 Reach the water level! Watch your step or the bugs will bite.
