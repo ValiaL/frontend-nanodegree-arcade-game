@@ -1,3 +1,14 @@
+// Hello.
+//
+// This is JSHint, a tool that helps to detect errors and potential
+// problems in your JavaScript code.
+//
+// To start, simply enter some JavaScript anywhere on this page. Your
+// report will appear on the right side.
+//
+// Additionally, you can toggle specific options in the Configure
+// menu.
+
 //Each tile is 101px wide
 var tileWidth = 101;
 //Each tile is 83px high
@@ -16,14 +27,12 @@ var PLAYER_MOVE_Y = 60;
 var allEnemies = [];
 var flag = false;
 
+
 //Produce a random number
 var randomNumber = function(range) {
 return Math.floor(Math.random()*range);
 };
 
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 // Enemies our player must avoid
 var Enemy = function() {
@@ -36,7 +45,7 @@ var Enemy = function() {
     this.x = BUG_START_X;
     this.y = this.StartPosY();
     this.speed = this.DefineSpeed();
-}
+};
 
 /**
 * Computes the random y position of bug entities;
@@ -44,12 +53,11 @@ var Enemy = function() {
 */
 Enemy.prototype.StartPosY = function() {
     return ((tileHeight-20) + randomNumber(3) * tileHeight);
-}
+};
 
 Enemy.prototype.DefineSpeed = function(){
     return BUG_SPEEDS[randomNumber(BUG_SPEEDS.length)];
-}
-
+};
 
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
@@ -70,23 +78,26 @@ Enemy.prototype.update = function(dt) {
         this.multiplyEnemies();
         flag = true;
     }
-}
+};
+
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+};
+
 
 Enemy.prototype.multiplyEnemies = function(){
     for (var i = 0; i < 200; i++) {
-        allEnemies.push(new Enemy);
-    };
-}
+        allEnemies.push(new Enemy());
+    }
+};
+
 
 Enemy.prototype.resetAll = function(){
     this.x = BUG_START_X;
     this.y = this.StartPosY();
-}
+};
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -101,7 +112,7 @@ var Player = function() {
     this.sprite = 'images/char-horn-girl.png';
     this.x = PLAYER_START_X;
     this.y = PLAYER_START_Y;
-}
+};
 
 Player.prototype.update = function(dt) { 
     // You should multiply any movement by the dt parameter
@@ -116,16 +127,17 @@ Player.prototype.update = function(dt) {
     if(player.y <= 0){
         this.resetPosition();
     }
-}
+};
 
 Player.prototype.resetPosition = function(){
     this.x = PLAYER_START_X;
     this.y = PLAYER_START_Y;
-}
+};
 
 Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+};
+
 
 Player.prototype.handleInput = function(key){
     switch(key){
@@ -147,7 +159,7 @@ Player.prototype.handleInput = function(key){
             break;
     }
 
-}
+};
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -166,6 +178,7 @@ allEnemies = [enemy1,enemy2,enemy3];
 player.resetPosition();
 }
 
+
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
 document.addEventListener('keyup', function(e) {
@@ -178,3 +191,4 @@ document.addEventListener('keyup', function(e) {
     };
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
