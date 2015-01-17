@@ -57,7 +57,7 @@ var Engine = (function(global) {
          * function again as soon as the browser is able to draw another frame.
          */
         win.requestAnimationFrame(main);
-    };
+    }
 
     /* This function does some initial setup that should only occur once,
      * particularly setting the lastTime variable that is required for the
@@ -82,7 +82,7 @@ var Engine = (function(global) {
         updateEntities(dt);
         bugCollision(dt);
         if (flag === true){
-        setTimeout(function(){openMessageWindow(dt)},1000);
+        setTimeout(function(){openMessageWindow(dt);},1000);
         flag = false;
         }   
         // checkCollisions();
@@ -116,8 +116,6 @@ var Engine = (function(global) {
              }
            });
     }
-
-
 
     function openMessageWindow(){
        window.alert("You stepped on a bug nest! Press OK to restart");
@@ -239,3 +237,4 @@ var Engine = (function(global) {
      */
     global.ctx = ctx;
 })(this);
+
